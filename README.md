@@ -20,7 +20,7 @@ A modern, production-ready frontend for the Feedback API, built with React 19, T
 
 | Public Feedback Form | Feedback Submitted |
 | :---: | :---: |
-| ![Feedback Form](./images/Feedback%20Form.png) | ![Feedback Submitted](./images/Feedback%20Submitted.png) |
+| ![Feedback Form](./images/Feedback%20Form.png) | ![Feedback Submitted](./images/Feedback%20Submitteds.png) |
 | **Feedback Page** | **Confirm Status Change Dialog** |
 | ![Feedback Page](./images/Feedback%20Page.png) | ![Confirm Status Change Dialog](./images/Confirm%20Status%20Change%20Dialog.png) |
 | **Admin Login** | **Admin Register** |
