@@ -1,3 +1,4 @@
+
 # Feedback Board
 
 A modern, production-ready frontend for the Feedback API, built with React 19, TypeScript, Vite, TanStack Query, React Hook Form + Zod, and TailwindCSS with a soft, minimalist SaaS-style UI.
@@ -15,11 +16,24 @@ A modern, production-ready frontend for the Feedback API, built with React 19, T
 - Global Axios instance with request/response interceptors (auto Authorization header, 401 auto-logout).
 - Toast notifications, accessible forms, responsive layout (mobile, tablet, desktop).
 
+## Screenshots
+
+| Public Feedback Form | Feedback Submitted |
+| :---: | :---: |
+| ![Feedback Form](./images/Feedback%20Form.png) | ![Feedback Submitted](./images/Feedback%20Submitted.png) |
+| **Feedback Page** | **Confirm Status Change Dialog** |
+| ![Feedback Page](./images/Feedback%20Page.png) | ![Confirm Status Change Dialog](./images/Confirm%20Status%20Change%20Dialog.png) |
+| **Admin Login** | **Admin Register** |
+| ![Admin Login](./images/Admin%20Login.png) | ![Admin Register](./images/Admin%20Register.png) |
+| **Admin Overview** | **Admin Feedbacks** |
+| ![Admin Overview](./images/Admin%20Overview.png) | ![Admin Feedbacks](./images/Admin%20Feedbacks.png) |
+
 ## Getting Started
 
 ```bash
 npm install
 npm run dev
+
 ```
 
 The app runs at `http://localhost:5173`.
@@ -30,6 +44,7 @@ Create a `.env` file (an `.env.example` is provided):
 
 ```
 VITE_API_BASE_URL=http://localhost:8000/api/v1
+
 ```
 
 This should point to your running instance of the Feedback API.
@@ -52,34 +67,35 @@ src/
 ├── types/          # Types derived from the OpenAPI spec
 ├── App.tsx
 └── main.tsx
+
 ```
 
 ## Tech Stack
 
-- React 19 + TypeScript (strict mode)
-- Vite
-- React Router
-- Axios
-- TanStack Query (React Query)
-- React Hook Form + Zod
-- TailwindCSS
-- Lucide React Icons
-- react-hot-toast
+* React 19 + TypeScript (strict mode)
+* Vite
+* React Router
+* Axios
+* TanStack Query (React Query)
+* React Hook Form + Zod
+* TailwindCSS
+* Lucide React Icons
+* react-hot-toast
 
 ## Scripts
 
-- `npm run dev` — start the dev server
-- `npm run build` — type-check and build for production
-- `npm run preview` — preview the production build
-- `npm run lint` — run ESLint
+* `npm run dev` — start the dev server
+* `npm run build` — type-check and build for production
+* `npm run preview` — preview the production build
+* `npm run lint` — run ESLint
 
 ## Notes on API Integration
 
 All types, endpoints, and validation rules were derived directly from the provided OpenAPI specification:
 
-- `POST /auth/register`, `POST /auth/login`
-- `POST /feedbacks` (public), `GET /feedbacks` (admin, paginated + status filter)
-- `GET /feedbacks/{id}` (admin)
-- `PATCH /feedbacks/{id}/status` (admin)
+* `POST /auth/register`, `POST /auth/login`
+* `POST /feedbacks` (public), `GET /feedbacks` (admin, paginated + status filter)
+* `GET /feedbacks/{id}` (admin)
+* `PATCH /feedbacks/{id}/status` (admin)
 
 Validation rules (title 3–200 chars, message 5–5000 chars, email format, password min length) mirror the backend's Pydantic models via Zod schemas.
