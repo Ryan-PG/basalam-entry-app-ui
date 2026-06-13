@@ -10,7 +10,7 @@ export function PublicLayout() {
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 text-white shadow-soft">
               <MessageSquareHeart className="h-5 w-5" />
             </span>
-            Feedback Board
+            Ryan Feedback Board
           </Link>
           <Link
             to="/login"

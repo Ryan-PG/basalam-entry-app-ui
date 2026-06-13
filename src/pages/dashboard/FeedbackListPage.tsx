@@ -39,8 +39,8 @@ export function FeedbackListPage() {
     status: status === 'all' ? null : status,
   })
 
-  const { mutate: updateStatus, isLoading: isUpdating } = useUpdateFeedbackMutation()
-
+  const { mutate: updateStatus, isPending: isUpdating } = useUpdateFeedbackMutation()
+  
   const filtered = useMemo(() => {
     if (!data) return []
     const term = search.trim().toLowerCase()
