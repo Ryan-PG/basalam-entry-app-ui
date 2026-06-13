@@ -5,6 +5,8 @@ import type {
   FeedbackUpdateStatus,
   ListFeedbacksParams,
 } from '@/types/api'
+import { apiClient } from '@/api/client'
+import type { FeedbackStatus } from '@/types/api'
 
 export const feedbackKeys = {
   all: ['feedbacks'] as const,
@@ -42,6 +44,20 @@ export function useUpdateFeedbackStatusMutation(id: string) {
     onSuccess: (data) => {
       queryClient.setQueryData(feedbackKeys.detail(id), data)
       queryClient.invalidateQueries({ queryKey: feedbackKeys.all })
+    },
+  })
+}
+
+export function useUpdateFeedbackMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: FeedbackStatus }) => {
+      return apiClient.patch(`/feedbacks/${id}/status`, { status })
+    },
+    onSuccess: () => {
+      // Automatically updates the table cache so changes appear immediately
+      queryClient.invalidateQueries({ queryKey: ['feedbacks'] })
     },
   })
 }

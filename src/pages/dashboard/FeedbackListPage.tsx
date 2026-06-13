@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Eye } from 'lucide-react'
-import { useFeedbacksQuery } from '@/hooks/useFeedbacks'
+import { useFeedbacksQuery, useUpdateFeedbackMutation } from '@/hooks/useFeedbacks'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Pagination } from '@/components/ui/Pagination'
-import { StatusBadge } from '@/components/ui/Badge'
 import { EmptyState, ErrorState, TableSkeleton } from '@/components/ui/States'
 import {
   Table,
@@ -22,6 +21,13 @@ import type { FeedbackStatus } from '@/types/api'
 
 const PAGE_SIZE = 10
 
+// Tailwind dynamic styling configuration based on status values
+const STATUS_STYLES: Record<FeedbackStatus, string> = {
+  submitted: 'bg-neutral-50 text-neutral-700 border-neutral-200 focus:ring-neutral-500',
+  under_review: 'bg-amber-50 text-amber-700 border-amber-200 focus:ring-amber-500',
+  resolved: 'bg-emerald-50 text-emerald-700 border-emerald-200 focus:ring-emerald-500',
+}
+
 export function FeedbackListPage() {
   const [page, setPage] = useState(1)
   const [status, setStatus] = useState<FeedbackStatus | 'all'>('all')
@@ -32,6 +38,8 @@ export function FeedbackListPage() {
     size: PAGE_SIZE,
     status: status === 'all' ? null : status,
   })
+
+  const { mutate: updateStatus, isLoading: isUpdating } = useUpdateFeedbackMutation()
 
   const filtered = useMemo(() => {
     if (!data) return []
@@ -44,9 +52,20 @@ export function FeedbackListPage() {
     )
   }, [data, search])
 
-  function handleStatusChange(value: string) {
+  function handleStatusFilterChange(value: string) {
     setStatus(value as FeedbackStatus | 'all')
     setPage(1)
+  }
+
+  function handleInlineStatusChange(feedbackId: string, newStatus: FeedbackStatus) {
+    updateStatus({ id: feedbackId, status: newStatus }, {
+      onSuccess: () => {
+        refetch() 
+      },
+      onError: (err) => {
+        alert(`Failed to update status: ${parseApiError(err).message}`)
+      }
+    })
   }
 
   return (
@@ -74,7 +93,7 @@ export function FeedbackListPage() {
             </div>
             <Select
               value={status}
-              onChange={(e) => handleStatusChange(e.target.value)}
+              onChange={(e) => handleStatusFilterChange(e.target.value)}
               aria-label="Filter by status"
               className="sm:w-44"
             >
@@ -124,9 +143,24 @@ export function FeedbackListPage() {
                           {feedback.message}
                         </p>
                       </TableCell>
+                      
                       <TableCell>
-                        <StatusBadge status={feedback.status} />
+                        <Select
+                          value={feedback.status}
+                          disabled={isUpdating}
+                          onChange={(e) => 
+                            handleInlineStatusChange(feedback.id, e.target.value as FeedbackStatus)
+                          }
+                          aria-label="Change status"
+                          // Appends dynamic context classes cleanly onto the layout class properties
+                          className={`w-36 text-xs font-semibold py-1 h-8 rounded-full border transition-all cursor-pointer ${STATUS_STYLES[feedback.status] || ''}`}
+                        >
+                          <option value="submitted" className="bg-white text-neutral-800 font-normal">Submitted</option>
+                          <option value="under_review" className="bg-white text-neutral-800 font-normal">Under Review</option>
+                          <option value="resolved" className="bg-white text-neutral-800 font-normal">Resolved</option>
+                        </Select>
                       </TableCell>
+
                       <TableCell className="whitespace-nowrap text-neutral-500">
                         {formatDate(feedback.created_at)}
                       </TableCell>

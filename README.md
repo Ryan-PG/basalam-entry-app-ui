@@ -2,6 +2,9 @@
 
 A modern, production-ready frontend for the Feedback API, built with React 19, TypeScript, Vite, TanStack Query, React Hook Form + Zod, and TailwindCSS with a soft, minimalist SaaS-style UI.
 
+> Note that this application also contains a UI in this repo:
+> https://github.com/Ryan-PG/basalam-entry-app-api
+
 ## Features
 
 - **Public feedback submission** (`/`) — anyone can submit feedback (title + message) with client-side validation.
