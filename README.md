@@ -1,5 +1,5 @@
 
-# Feedback Board
+# Ryan Feedback Board
 
 A modern, production-ready frontend for the Feedback API, built with React 19, TypeScript, Vite, TanStack Query, React Hook Form + Zod, and TailwindCSS with a soft, minimalist SaaS-style UI.
 
